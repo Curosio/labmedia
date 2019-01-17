@@ -88,3 +88,13 @@ div.item-name {
 .unvisible{
 	display: none;
 }
+
+.selected{
+	padding-left: 150px;
+	font-size: 12px;
+}
+
+.remove{
+	float: left;
+	cursor: pointer;
+}
