@@ -84,3 +84,7 @@ div.item-name {
   	text-decoration: none;
   	cursor: pointer;
 }
+
+.unvisible{
+	display: none;
+}

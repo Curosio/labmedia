@@ -2,11 +2,11 @@
 <html>
 <head>
 	<title>LabMedia Modal Window</title>
-	<meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<script src="https://code.jquery.com/jquery-1.12.4.js" language="javascript" ></script>
-	<script src="/js/main.js" language="javascript" ></script>
-	<link rel="stylesheet" href="/css/main.css"  />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
+	<script src="/js/main.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 	<div class="content">
@@ -14,19 +14,31 @@
 			<h1>LabMedia Modal Window</h1>
 			<div class="select-item">
 				<div class="item-name">Сотрудник</div>
-				<div class="let-select" data="/data/persons.json">Выбрать</div>
+				<div class="let-select">Выбрать
+					<span class="unvisible data">/data/persons.json</span>
+					<span class="unvisible to-modal-header">Выбор сотрудника</span>
+				</div>
 			</div>
 			<div class="select-item">
 				<div class="item-name">Должность</div>
-				<div class="let-select" data="/data/positions.json">Выбрать</div>
+				<div class="let-select">Выбрать
+					<span class="unvisible data">/data/positions.json</span>
+					<span class="unvisible to-modal-header">Выбор должности</span>
+				</div>
 			</div>
 			<div class="select-item">
 				<div class="item-name">Организация</div>
-				<div class="let-select" data="/data/orgs.json">Выбрать</div>
+				<div class="let-select">Выбрать
+					<span class="unvisible data">/data/orgs.json</span>
+					<span class="unvisible to-modal-header">Выбор организации</span>
+				</div>
 			</div>
 			<div class="select-item">
 				<div class="item-name">Подразделение</div>
-				<div class="let-select" data="/data/subs.json">Выбрать</div>
+				<div class="let-select">Выбрать
+					<span class="unvisible data">/data/subs.json</span>
+					<span class="unvisible to-modal-header">Выбор подразделения</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -40,7 +52,7 @@
   <div class="modal-content">
 
     <span class="close">&times;</span>
-     <div class="head-in-modal">Head</div>
+     <div class="head-in-modal"></div>
      <div class="content-json">
 
 
