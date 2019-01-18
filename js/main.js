@@ -9,6 +9,8 @@ function click_position( thisis ){
 
 $( function() {
 
+
+
 	$(".close, .let-reset").click(function(){
 		$("#labmedia-modal").css("display", "none");
 		$(".content-json").html("");
@@ -81,19 +83,48 @@ $( function() {
 
 				         		$th_id = $th.parent().find(".id-person").text();
 
+									$ages = $("#position").find(".ages").text();
+									if($ages){
+										$ages_arr = $ages.split("-");
+									}else{
+										$ages_arr = Array( 0, 200);
+									}
+				            		
+
 				            	$sp.forEach(function(item, i, arr) {
 				            		$number = i+1;
 				            		$act = "";
 				            		
+				            		$date_arr = item[1].birthday.split(".");
+				            		$birthday = new Date($date_arr[2], $date_arr[1], $date_arr[0]);
+				            		$now = new Date();
 				            		
+				            		$delta_year = $now.getFullYear() - $birthday.getFullYear();
+
+
+				            		$block = "stop";
+				            		if($delta_year > $ages_arr[0] && $delta_year < $ages_arr[1]){
+				            				$block = "";
+				            		}
+
 				            		if(item[1].id == $th_id){
 				            			$act = "active";
 				            		}
-				            		$modal_data = $modal_data + "<span onclick='click_position($(this));' class='linen " + $act + "' ><span class='id-person' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].lastname + " " + item[1].middlename + " " + item[1].firstname + " (" + item[1].birthday + ")</span><hr/>";
+				            		$modal_data = $modal_data + "<span class='linen " + $block + " " + $act + "' ><span class='id-person' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].lastname + " " + item[1].middlename + " " + item[1].firstname + " (" + item[1].birthday + ")<span class='age' style='display:none'>" + $delta_year + "</span></span><hr/>";
 								
 								});
 
 				            	$(".content-json").html($modal_data);
+				            	$(".linen").unbind("click");
+				            	$(".linen").click(function(){
+				            		if($(this).hasClass("stop")){
+				            			alert("Сотрудник не подходит по возрасту!");
+				            			return false;
+				            		}else{
+				            			click_position($(this));
+				            		}
+
+				            	});
 				            }
 
 				            if($data_url == "/data/positions.json"){
@@ -108,20 +139,41 @@ $( function() {
 				      
 				         		$th_id = $th.parent().find(".id-position").text();
 
-
+				         		$delta_year = $("#person").find(".age").text();
 
 				            	$sp.forEach(function(item, i, arr) {
 				            		$number = i+1;
 				            		$act = "";
 				            		
+				            		$block = "stop";
+
+				            		if ($delta_year == ""){
+				            			if($delta_year > item[1].min_age && $delta_year < item[1].max_age){
+				            				$block = "";
+				            			}
+				            			$block = "";
+				            		}
 				            		
+
+
 				            		if(item[1].id == $th_id){
 				            			$act = "active";
 				            		}
-				            		$modal_data = $modal_data + "<span onclick='click_position($(this));' class='linen " + $act + "' ><span class='id-position' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].name + " (" + item[1].min_age + " - " + item[1].max_age + " лет)</span><hr/>";
+				            		$modal_data = $modal_data + "<span class='linen " + $block + " " + $act + "' ><span class='id-position' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].name + " (" + item[1].min_age + " - " + item[1].max_age + " лет)<span class='ages' style='display:none'>" + item[1].min_age + "-" + item[1].max_age + "</span></span><hr/>";
 
 				            	});
 				            	$(".content-json").html($modal_data);
+
+				            	$(".linen").unbind("click");
+				            	$(".linen").click(function(){
+				            		if($(this).hasClass("stop")){
+				            			alert("Сотрудник не подходит по возрасту!");
+				            			return false;
+				            		}else{
+				            			click_position($(this));
+				            		}
+
+				            	});
 				            }
 
   							if($data_url == "/data/orgs.json"){
@@ -145,10 +197,20 @@ $( function() {
 				            		if(item[1].id == $th_id){
 				            			$act = "active";
 				            		}
-				            		$modal_data = $modal_data + "<span onclick='click_position($(this));' class='linen " + $act + "' ><span class='id-org' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].name + " (" + item[1].country + ") </span><hr/>";
+				            		$modal_data = $modal_data + "<span  class='linen " + $act + "' ><span class='id-org' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].name + " (" + item[1].country + ") </span><hr/>";
 
 				            	});
 				            	$(".content-json").html($modal_data);
+				            	$(".linen").unbind("click");
+				            	$(".linen").click(function(){
+				            		if($("#sub").find(".id-sub").text()){
+				            			alert("Удалите сначала подразделение!");
+				            			return false;
+				            		}else{
+				            			click_position($(this));
+				            		}
+
+				            	});
 				            }
 
 			            	
@@ -156,8 +218,15 @@ $( function() {
 				            	$modal_data = "";
 
 								$sort_subs = Array();
+
+
+								$id_org = $("#org").find(".id-org").text();
+
 				            	resp.responseJSON.forEach(function(item, i, arr) {
-				            		$sort_subs.push([item.name , arr[i] ]  );
+				            		if ($id_org == arr[i].org_id){
+				            			$sort_subs.push([item.name , arr[i] ]  );
+				            		}
+				            		
 				            	});
 
 				            	$sp = $sort_subs.sort();
@@ -165,18 +234,21 @@ $( function() {
 				         		$th_id = $th.parent().find(".id-sub").text();
 
 
-				          
+				          		$count = 0;
 				            	$sp.forEach(function(item, i, arr) {
 				            		$number = i+1;
 				            		$act = "";
 				            		
-				            		
+				            		$count++;
 				            		if(item[1].id == $th_id){
 				            			$act = "active";
 				            		}
 				            		$modal_data = $modal_data + "<span onclick='click_position($(this));' class='linen " + $act + "' ><span class='id-sub' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].name + "<span class'id-position-key' style='display:none;'>" + item[1].org_id + "</span></span><hr/>";
 
 				            	});
+				            	if($count == 0){
+				            		$modal_data = "<h2>Не выбрана организация!</h2>";
+				            	}
 				            	$(".content-json").html($modal_data);
 				            }
 
