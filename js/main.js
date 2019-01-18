@@ -138,19 +138,21 @@ $( function() {
 				            	$sp = $sort_positions.sort();
 				      
 				         		$th_id = $th.parent().find(".id-position").text();
-
+				         		$delta_year_obj = $("#person").find(".age");
+				         		//console.log($delta_year_obj.length);
 				         		$delta_year = $("#person").find(".age").text();
-
+			
 				            	$sp.forEach(function(item, i, arr) {
 				            		$number = i+1;
 				            		$act = "";
 				            		
 				            		$block = "";
 
-
-				            			if($delta_year < item[1].min_age || $delta_year > item[1].max_age){
-				            				$block = "stop";
-				            			}
+				            			if($delta_year_obj.length > 0){
+					            			if($delta_year < item[1].min_age || $delta_year > item[1].max_age){
+					            				$block = "stop";
+					            			}
+					            		}
 				            	
 
 
