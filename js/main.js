@@ -145,15 +145,13 @@ $( function() {
 				            		$number = i+1;
 				            		$act = "";
 				            		
-				            		$block = "stop";
+				            		$block = "";
 
-				            		if ($delta_year == ""){
-				            			if($delta_year > item[1].min_age && $delta_year < item[1].max_age){
-				            				$block = "";
+
+				            			if($delta_year < item[1].min_age || $delta_year > item[1].max_age){
+				            				$block = "stop";
 				            			}
-				            			$block = "";
-				            		}
-				            		
+				            	
 
 
 				            		if(item[1].id == $th_id){
