@@ -8,68 +8,7 @@ function click_position( thisis ){
 
 
 
-$( function() {
-
-
-
-	$(".close, .let-reset").click(function(){
-		$("#labmedia-modal").css("display", "none");
-		$(".content-json").html("");
-	});
-
-
-	$(".remove").click(function(){
-		if(confirm("Удалить?")){
-			$(this).addClass("unvisible");
-			$(this).parent().find(".selected-text").html("");
-		}
-		
-	});
-
-	$(".let-select").click(function(){
-
-		$("#labmedia-modal").css("display", "block");
-		var $selected = $(this).parent().find(".selected");
-
-		var $selected_text = $(this).parent().find(".selected-text");
-		var $header = $(this).find(".to-modal-header").text();
-		$(".head-in-modal").text($header);
-		var $data_url = $(this).find(".datas").text();
-		
-		
-		
-		$(".let-ok").unbind("click");
-		$(".let-ok").click(function(){
-			var $selected_item = $(this).parent().find(".active").html();
-
-			if($(this).parent().find(".active")[0]){
-
-				$selected.find(".remove").removeClass("unvisible");
-
-
-				$selected_text.html($selected_item);
-				$(".close").click();
-			}else{
-				alert("Вы не выбрали!");
-			}
-
-
-
-			
-
-		});
-		
-
-		var $th = $(this);
-
-			 $.ajax(
-			        $data_url, {
-			            type: 'GET',
-			            dataType: 'json',
-			            beforeSend: function(xhr) {
-
-			            },
-			            complete: function(resp) {
+function let_work_function(resp, $data_url, $th) {
 			            
 			            var	$modal_data="";
 
@@ -279,12 +218,104 @@ $( function() {
 
 
 			                
+			            }
+
+
+
+
+
+
+
+
+
+
+
+$( function() {
+
+
+
+	$(".close, .let-reset").click(function(){
+		$("#labmedia-modal").css("display", "none");
+		$(".content-json").html("");
+	});
+
+
+	$(".remove").click(function(){
+		if(confirm("Удалить?")){
+			$(this).addClass("unvisible");
+			$(this).parent().find(".selected-text").html("");
+		}
+		
+	});
+
+	$(".let-select").click(function(){
+
+		$("#labmedia-modal").css("display", "block");
+		var $selected = $(this).parent().find(".selected");
+
+		var $selected_text = $(this).parent().find(".selected-text");
+		var $header = $(this).find(".to-modal-header").text();
+		$(".head-in-modal").text($header);
+		var $data_url = $(this).find(".datas").text();
+		
+		
+		
+		$(".let-ok").unbind("click");
+		$(".let-ok").click(function(){
+			var $selected_item = $(this).parent().find(".active").html();
+
+			if($(this).parent().find(".active")[0]){
+
+				$selected.find(".remove").removeClass("unvisible");
+
+
+				$selected_text.html($selected_item);
+				$(".close").click();
+			}else{
+				alert("Вы не выбрали!");
+			}
+
+
+
+			
+
+		});
+		
+
+		var $th = $(this);
+
+		var resp;
+
+		if(resp){
+			let_work_function(resp, $data_url);
+		}else{
+
+
+
+			 $.ajax(
+			        $data_url, {
+			            type: 'GET',
+			            dataType: 'json',
+			            beforeSend: function(xhr) {
+
 			            },
+			            complete: function(resp){
+			            	let_work_function(resp, $data_url, $th)}
+			            	,
 			            error: function(jqXHR, textStatus, errorThrown) {
 			                console.log(textStatus);
 			            }
 			        }
 			    );
+
+
+
+
+		}
+
+
+
+
 
 
 
