@@ -1,3 +1,4 @@
+"use strict";
 function click_position( thisis ){
 	thisis.parent().find(".active").removeClass("active");
 	thisis.addClass("active");
@@ -28,17 +29,18 @@ $( function() {
 	$(".let-select").click(function(){
 
 		$("#labmedia-modal").css("display", "block");
-		$selected = $(this).parent().find(".selected");
+		var $selected = $(this).parent().find(".selected");
 
-		$selected_text = $(this).parent().find(".selected-text");
-		$header = $(this).find(".to-modal-header").text();
+		var $selected_text = $(this).parent().find(".selected-text");
+		var $header = $(this).find(".to-modal-header").text();
 		$(".head-in-modal").text($header);
-		$data_url = $(this).find(".datas").text();
+		var $data_url = $(this).find(".datas").text();
+		
 		
 		
 		$(".let-ok").unbind("click");
 		$(".let-ok").click(function(){
-			$selected_item = $(this).parent().find(".active").html();
+			var $selected_item = $(this).parent().find(".active").html();
 
 			if($(this).parent().find(".active")[0]){
 
@@ -58,7 +60,7 @@ $( function() {
 		});
 		
 
-		$th = $(this);
+		var $th = $(this);
 
 			 $.ajax(
 			        $data_url, {
@@ -69,28 +71,35 @@ $( function() {
 			            },
 			            complete: function(resp) {
 			            
-			            	$modal_data="";
+			            var	$modal_data="";
 
 				            if($data_url == "/data/persons.json"){
 				            	$modal_data = "";
 
-				            	$sort_persons = Array();
+				            	var $sort_persons = Array();
 				            	resp.responseJSON.forEach(function(item, i, arr) {
 				            		$sort_persons.push([item.lastname + " " + item.middlename + " " + item.firstname + " " + item.birthday , arr[i] ]  );
 				            	});
 
-				            	$sp = $sort_persons.sort();
+				            	var $sp = $sort_persons.sort();
 
-				         		$th_id = $th.parent().find(".id-person").text();
+				         		var $th_id = $th.parent().find(".id-person").text();
 
-									$ages = $("#position").find(".ages").text();
+									var $ages = $("#position").find(".ages").text();
+									var $ages_arr;
 									if($ages){
 										$ages_arr = $ages.split("-");
 									}else{
 										$ages_arr = Array( 0, 200);
 									}
 				            		
-
+									var $number; 
+									var $act;
+									var $date_arr;
+									var $birthday;
+									var $now;
+									var $delta_year;
+									var $block;
 				            	$sp.forEach(function(item, i, arr) {
 				            		$number = i+1;
 				            		$act = "";
@@ -128,20 +137,25 @@ $( function() {
 				            }
 
 				            if($data_url == "/data/positions.json"){
-				            	$modal_data = "";
+				            	var $modal_data = "";
 
-								$sort_positions = Array();
+								var $sort_positions = Array();
 				            	resp.responseJSON.forEach(function(item, i, arr) {
 				            		$sort_positions.push([item.name , arr[i] ]  );
 				            	});
 
-				            	$sp = $sort_positions.sort();
+				            	var $sp = $sort_positions.sort();
 				      
-				         		$th_id = $th.parent().find(".id-position").text();
-				         		$delta_year_obj = $("#person").find(".age");
+				         		var $th_id = $th.parent().find(".id-position").text();
+				         		var $delta_year_obj = $("#person").find(".age");
 				         		//console.log($delta_year_obj.length);
-				         		$delta_year = $("#person").find(".age").text();
+				         		var $delta_year = $("#person").find(".age").text();
 			
+
+
+								var $number;
+								var $act;
+								var $block
 				            	$sp.forEach(function(item, i, arr) {
 				            		$number = i+1;
 				            		$act = "";
@@ -177,18 +191,19 @@ $( function() {
 				            }
 
   							if($data_url == "/data/orgs.json"){
-				            	$modal_data = "";
+				            	var $modal_data = "";
 
-								$sort_orgs = Array();
+								var $sort_orgs = Array();
 				            	resp.responseJSON.forEach(function(item, i, arr) {
 				            		$sort_orgs.push([item.name + item.country , arr[i] ]  );
 				            	});
 
-				            	$sp = $sort_orgs.sort();
+				            	var $sp = $sort_orgs.sort();
 
-				         		$th_id = $th.parent().find(".id-org").text();
+				         		var $th_id = $th.parent().find(".id-org").text();
 
-
+				         		var $number;
+				         		var $act;
 				            	$sp.forEach(function(item, i, arr) {
 				            		$number = i+1;
 				            		$act = "";
@@ -215,12 +230,12 @@ $( function() {
 
 			            	
 			            	if($data_url == "/data/subs.json"){
-				            	$modal_data = "";
+				            	var $modal_data = "";
 
-								$sort_subs = Array();
+								var $sort_subs = Array();
 
 
-								$id_org = $("#org").find(".id-org").text();
+								var $id_org = $("#org").find(".id-org").text();
 
 				            	resp.responseJSON.forEach(function(item, i, arr) {
 				            		if ($id_org == arr[i].org_id){
@@ -229,12 +244,14 @@ $( function() {
 				            		
 				            	});
 
-				            	$sp = $sort_subs.sort();
+				            	var $sp = $sort_subs.sort();
 
-				         		$th_id = $th.parent().find(".id-sub").text();
+				         		var $th_id = $th.parent().find(".id-sub").text();
 
 
-				          		$count = 0;
+				          		var $count = 0;
+				          		var $number;
+				          		var $act;
 				            	$sp.forEach(function(item, i, arr) {
 				            		$number = i+1;
 				            		$act = "";
