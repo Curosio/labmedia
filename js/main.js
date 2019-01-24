@@ -5,14 +5,11 @@ function click_position( thisis ){
 	
 }
 
-
-
-
 function let_work_function(resp, $data_url, $th) {
 			            
 			            var	$modal_data="";
 
-				            if($data_url == "/data/persons.json"){
+				            if($data_url == "data/persons.json"){
 				            	$modal_data = "";
 
 				            	var $sort_persons = Array();
@@ -75,7 +72,7 @@ function let_work_function(resp, $data_url, $th) {
 				            	});
 				            }
 
-				            if($data_url == "/data/positions.json"){
+				            if($data_url == "data/positions.json"){
 				            	var $modal_data = "";
 
 								var $sort_positions = Array();
@@ -129,7 +126,7 @@ function let_work_function(resp, $data_url, $th) {
 				            	});
 				            }
 
-  							if($data_url == "/data/orgs.json"){
+  							if($data_url == "data/orgs.json"){
 				            	var $modal_data = "";
 
 								var $sort_orgs = Array();
@@ -168,7 +165,7 @@ function let_work_function(resp, $data_url, $th) {
 				            }
 
 			            	
-			            	if($data_url == "/data/subs.json"){
+			            	if($data_url == "data/subs.json"){
 				            	var $modal_data = "";
 
 								var $sort_subs = Array();
@@ -207,38 +204,15 @@ function let_work_function(resp, $data_url, $th) {
 				            	}
 				            	$(".content-json").html($modal_data);
 				            }
-
-
-
-
-
-
-
-
-
-
 			                
 			            }
 
-
-
-
-
-
-
-
-
-
-
 $( function() {
-
-
 
 	$(".close, .let-reset").click(function(){
 		$("#labmedia-modal").css("display", "none");
 		$(".content-json").html("");
 	});
-
 
 	$(".remove").click(function(){
 		if(confirm("Удалить?")){
@@ -257,9 +231,7 @@ $( function() {
 		var $header = $(this).find(".to-modal-header").text();
 		$(".head-in-modal").text($header);
 		var $data_url = $(this).find(".datas").text();
-		
-		
-		
+				
 		$(".let-ok").unbind("click");
 		$(".let-ok").click(function(){
 			var $selected_item = $(this).parent().find(".active").html();
@@ -268,20 +240,14 @@ $( function() {
 
 				$selected.find(".remove").removeClass("unvisible");
 
-
 				$selected_text.html($selected_item);
 				$(".close").click();
 			}else{
 				alert("Вы не выбрали!");
 			}
 
-
-
-			
-
 		});
 		
-
 		var $th = $(this);
 
 		var resp;
@@ -289,9 +255,6 @@ $( function() {
 		if(resp){
 			let_work_function(resp, $data_url);
 		}else{
-
-
-
 			 $.ajax(
 			        $data_url, {
 			            type: 'GET',
@@ -308,20 +271,8 @@ $( function() {
 			        }
 			    );
 
-
-
-
 		}
-
-
-
-
-
-
-
 		
 	});
 
 });
-
-
