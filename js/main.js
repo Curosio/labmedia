@@ -1,22 +1,18 @@
 "use strict";
-function click_position( thisis ){
-	thisis.parent().find(".active").removeClass("active");
-	thisis.addClass("active");
-	
-}
 
 
 
 
-function let_work_function(resp, $data_url, $th) {
+
+function let_work_function($data_url, resp, $th){
 			            
 			            var	$modal_data="";
-
+			            
 				            if($data_url == "data/persons.json"){
 				            	$modal_data = "";
-
+				            	
 				            	var $sort_persons = Array();
-				            	resp.responseJSON.forEach(function(item, i, arr) {
+				            	resp.forEach(function(item, i, arr) {
 				            		$sort_persons.push([item.lastname + " " + item.middlename + " " + item.firstname + " " + item.birthday , arr[i] ]  );
 				            	});
 
@@ -69,7 +65,8 @@ function let_work_function(resp, $data_url, $th) {
 				            			alert("Сотрудник не подходит по возрасту!");
 				            			return false;
 				            		}else{
-				            			click_position($(this));
+				            			$(this).parent().find(".active").removeClass("active");
+										$(this).addClass("active");
 				            		}
 
 				            	});
@@ -77,9 +74,9 @@ function let_work_function(resp, $data_url, $th) {
 
 				            if($data_url == "data/positions.json"){
 				            	var $modal_data = "";
-
+				            	
 								var $sort_positions = Array();
-				            	resp.responseJSON.forEach(function(item, i, arr) {
+				            	resp.forEach(function(item, i, arr) {
 				            		$sort_positions.push([item.name , arr[i] ]  );
 				            	});
 
@@ -121,13 +118,15 @@ function let_work_function(resp, $data_url, $th) {
 				            	$(".linen").click(function(){
 				            		if($(this).hasClass("stop")){
 				            			if (confirm("Действительно ли Вы хотите назначить сотрудника на данную должность? Дело в том, что он не проходит рекомендации по возрасту!")){
-				            				click_position($(this));
+				            				$(this).parent().find(".active").removeClass("active");
+											$(this).addClass("active");
 				            			}else{
 				            				return false;
 				            			}
 				            			
 				            		}else{
-				            			click_position($(this));
+				            				$(this).parent().find(".active").removeClass("active");
+											$(this).addClass("active");
 				            		}
 
 				            	});
@@ -135,9 +134,9 @@ function let_work_function(resp, $data_url, $th) {
 
   							if($data_url == "data/orgs.json"){
 				            	var $modal_data = "";
-
+				            	
 								var $sort_orgs = Array();
-				            	resp.responseJSON.forEach(function(item, i, arr) {
+				            	resp.forEach(function(item, i, arr) {
 				            		$sort_orgs.push([item.name + item.country , arr[i] ]  );
 				            	});
 
@@ -165,7 +164,8 @@ function let_work_function(resp, $data_url, $th) {
 				            			alert("Удалите сначала подразделение!");
 				            			return false;
 				            		}else{
-				            			click_position($(this));
+				            			$(this).parent().find(".active").removeClass("active");
+										$(this).addClass("active");
 				            		}
 
 				            	});
@@ -174,13 +174,13 @@ function let_work_function(resp, $data_url, $th) {
 			            	
 			            	if($data_url == "data/subs.json"){
 				            	var $modal_data = "";
-
+				            	
 								var $sort_subs = Array();
 
 
 								var $id_org = $("#org").find(".id-org").text();
 
-				            	resp.responseJSON.forEach(function(item, i, arr) {
+				            	resp.forEach(function(item, i, arr) {
 				            		if ($id_org == arr[i].org_id){
 				            			$sort_subs.push([item.name , arr[i] ]  );
 				            		}
@@ -203,7 +203,7 @@ function let_work_function(resp, $data_url, $th) {
 				            		if(item[1].id == $th_id){
 				            			$act = "active";
 				            		}
-				            		$modal_data = $modal_data + "<span onclick='click_position($(this));' class='linen " + $act + "' ><span class='id-sub' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].name + "<span class'id-position-key' style='display:none;'>" + item[1].org_id + "</span></span><hr/>";
+				            		$modal_data = $modal_data + "<span  class='linen " + $act + "' ><span class='id-sub' style='display:none;'>"+item[1].id+"</span> " + $number + " - " + item[1].name + "<span class'id-position-key' style='display:none;'>" + item[1].org_id + "</span></span><hr/>";
 
 				            	});
 				            	if($count == 0){
@@ -215,13 +215,15 @@ function let_work_function(resp, $data_url, $th) {
 			            }
 
 $( function() {
-
-	$(".close, .let-reset").click(function(){
+		$( "#labmedia-modal" ).on( "click", ".close, .let-reset", function() {
 		$("#labmedia-modal").css("display", "none");
 		$(".content-json").html("");
+		$(".active-selected").removeClass("active-selected");
+		$(".active-selected-text").removeClass("active-selected-text");
+		
 	});
 
-	$(".remove").click(function(){
+	$(".remove").click( function() {
 
 			$(this).addClass("unvisible");
 			$(this).parent().find(".selected-text").html("");
@@ -229,56 +231,66 @@ $( function() {
 		
 	});
 
-	$(".let-select").click(function(){
+	$( "#labmedia-modal" ).on( "click", ".linen", function() {
 
-		$("#labmedia-modal").css("display", "block");
-		var $selected = $(this).parent().find(".selected");
+			$(this).parent().find(".active").removeClass("active");
+			$(this).addClass("active");
+	
 
-		var $selected_text = $(this).parent().find(".selected-text");
-		var $header = $(this).find(".to-modal-header").text();
-		$(".head-in-modal").text($header);
-		var $data_url = $(this).find(".datas").text();
-				
-		$(".let-ok").unbind("click");
-		$(".let-ok").click(function(){
-			var $selected_item = $(this).parent().find(".active").html();
+		});
 
-			if($(this).parent().find(".active")[0]){
 
-				$selected.find(".remove").removeClass("unvisible");
+		$( "#labmedia-modal" ).on( "click", ".let-ok", function() {
+			var $selected_item = $( "#labmedia-modal" ).find(".active").html();
+	
+			if($( "#labmedia-modal" ).find(".active")[0]){
 
-				$selected_text.html($selected_item);
+				$(".active-selected").find(".remove").removeClass("unvisible");
+
+				$(".active-selected-text").html($selected_item);
 				$(".close").click();
 			}else{
 				alert("Вы не выбрали!");
 			}
-
+			
 		});
+
+	$(".let-select").click(function(){
+
+
+		 $("#labmedia-modal").html("<div class='modal-content'><span class='close'>&times;</span><div class='head-in-modal'></div><div class='content-json'></div><div class='let-ok'>OK</div><div class='let-reset'>Отмена</div></div>");
+
+		$("#labmedia-modal").css("display", "block");
+		var $selected = $(this).parent().find(".selected").addClass("active-selected");
+
+		var $selected_text = $(this).parent().find(".selected-text").addClass("active-selected-text");
+		var $header = $(this).find(".to-modal-header").text();
+		$(".head-in-modal").text($header);
+		var $data_url = $(this).find(".datas").text();
 		
+		
+
+
+		
+		var resp;
+		if($data_url == "data/persons.json"){
+			resp = $persons;
+		}
+		if($data_url == "data/positions.json"){
+			resp = $positions;
+		}
+		if($data_url == "data/orgs.json"){
+			resp = $orgs;
+		}
+		if($data_url == "data/subs.json"){
+			resp = $subs;
+		}
+
 		var $th = $(this);
 
-		var resp;
-
-		if(resp){
-			let_work_function(resp, $data_url);
-		}else{
-			 $.ajax(
-			        $data_url, {
-			            type: 'GET',
-			            dataType: 'json',
-			            beforeSend: function(xhr) {
-
-			            },
-			            complete: function(resp){
-			            	let_work_function(resp, $data_url, $th)}
-			            	,
-			            error: function(jqXHR, textStatus, errorThrown) {
-			                console.log(textStatus);
-			            }
-			        }
-			    );
-
-		}
+		
+			let_work_function($data_url, resp, $th);
+		
 		
 	});
 
