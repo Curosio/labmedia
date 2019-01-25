@@ -5,6 +5,9 @@ function click_position( thisis ){
 	
 }
 
+
+
+
 function let_work_function(resp, $data_url, $th) {
 			            
 			            var	$modal_data="";
@@ -117,8 +120,12 @@ function let_work_function(resp, $data_url, $th) {
 				            	$(".linen").unbind("click");
 				            	$(".linen").click(function(){
 				            		if($(this).hasClass("stop")){
-				            			alert("Сотрудник не подходит по возрасту!");
-				            			return false;
+				            			if (confirm("Действительно ли Вы хотите назначить сотрудника на данную должность? Дело в том, что он не проходит рекомендации по возрасту!")){
+				            				click_position($(this));
+				            			}else{
+				            				return false;
+				            			}
+				            			
 				            		}else{
 				            			click_position($(this));
 				            		}
@@ -215,10 +222,10 @@ $( function() {
 	});
 
 	$(".remove").click(function(){
-		if(confirm("Удалить?")){
+
 			$(this).addClass("unvisible");
 			$(this).parent().find(".selected-text").html("");
-		}
+
 		
 	});
 
